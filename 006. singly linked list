@@ -44,22 +44,6 @@ void add(linked** head, int data, int input) {
 	}
 	add(&temp->link, data, input);
 }
-/*
-void del(linked** head, int data) {
-	linked* temp = *head;
-	linked* temp2 = 0;
-	linked* temp3 = 0;
-	while (temp->link->data != data) {
-		temp = temp->link;
-		
-	}
-	temp2 = temp->link;
-	temp3 = temp2->link;
-	free(temp2);
-	temp->link = temp3;
-
-}
-*/
 
 void del(linked** head, int data) {
 	linked* temp = *head;
