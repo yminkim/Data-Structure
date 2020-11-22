@@ -1,0 +1,144 @@
+/*
+예외처리는 따로 하지 않음, 기능돌아가는 것만...
+*/
+#include<stdio.h>
+#include<malloc.h>
+#include<string.h>
+#include<stdlib.h>
+
+typedef struct node {
+	int data;
+	struct node* link;
+}Stack;
+
+Stack* get_node() {
+	Stack* temp = (Stack*)malloc(sizeof(Stack));
+	temp->link = 0;
+	return temp;
+}
+/*
+void insert(Stack** head, int data) {
+	Stack* temp = *head;
+	if (temp == 0) {
+		*head = get_node();
+		(*head)->data = data;
+		return;
+	}
+	else {
+		while (temp->link != 0) {
+			temp = temp->link;
+		}
+		temp->link = get_node();
+		temp->link->data = data;
+	}
+
+}
+*/
+
+void insert(Stack** head, int data) {
+	if (*head == 0) {
+		*head = get_node();
+		(*head)->data = data;
+		return;
+	} 
+	insert(&(*head)->link, data);
+}
+
+void add(Stack** head, int data, int newdata) {
+	Stack* temp = (*head)->link;
+	if ((*head)->data == data) {
+		(*head)->link = get_node();
+		(*head)->link->data = newdata;
+		(*head)->link->link = temp;
+		return;
+	}
+	add(&(*head)->link, data, newdata);
+}
+
+void del(Stack** head, int data) {
+	Stack* temp = (*head)->link->link;
+	if ((*head)->link->data == data) {
+		free((*head)->link);
+		(*head)->link = temp;
+		return;
+	}
+	del(&(*head)->link, data);
+}
+
+void modify(Stack** head, int data, int newdata) {
+	if ((*head)->data == data) {
+		(*head)->data = newdata;
+		return;
+	}
+	modify(&(*head)->link, data, newdata);
+}
+
+void print_stack(Stack* *head) {
+	Stack* temp = *head;
+	while (temp != 0) {
+		printf("%d\n", temp->data);
+		temp = temp->link;
+	}
+}
+
+int main() {
+	Stack* head = 0;
+	int menu;
+	int value;
+	int value2;
+
+	
+	while (1) {
+		system("cls");
+		print_stack(&head);
+		printf("----------\n");
+		printf("1.insert\n");
+		printf("2.add\n");
+		printf("3.modify\n");
+		printf("4.del\n");
+		printf("번호> ");
+		
+		scanf_s("%d", &menu);
+		switch (menu) {
+		case 1:
+			system("cls");
+			printf("추가할값:");
+			scanf_s("%d", &value);
+			insert(&head, value);
+			break;
+		case 2:
+			system("cls");
+			print_stack(&head);
+			printf("-------\n");
+			printf("추가할 위치의 값: ");
+			scanf_s("%d", &value);
+			printf("추가할 값: ");
+			scanf_s("%d", &value2);
+			add(&head, value, value2);
+			break;
+		case 3:
+			system("cls");
+			print_stack(&head);
+			printf("-------\n");
+			printf("수정할 위치의 값: ");
+			scanf_s("%d", &value);
+			printf("수정할 값: ");
+			scanf_s("%d", &value2);
+			modify(&head, value, value2);
+			break;
+		case 4:
+			system("cls");
+			print_stack(&head);
+			printf("-------\n");
+			printf("삭제할 값 입력:");
+			scanf_s("%d", &value);
+			del(&head, value);
+			break;
+		default :
+			break;
+		}
+	}
+	
+	
+	return 0;
+}
