@@ -56,23 +56,21 @@ int LNext(List* plist, LData* pdata) {
 }
 
 void LRemove(List* plist, LData pdata) {
-	int temp=0;
+	printf("\n%d를 지웁니다\n", pdata);
 	for (int i = 0; i < plist->numOfData; i++) {
-		if (plist->arr[i] == pdata)
-			temp = 1;
-	}
-	if (temp == 1) {
-		for (int i = 0; i < plist->numOfData; i++) {
-			if (plist->arr[i] == pdata) {
-				for (int j = i; j < plist->numOfData; j++)
-					plist->arr[j] = plist->arr[j + 1];
+		if (plist->arr[i] == pdata) {
+			for (int j = i; j < plist->numOfData; j++) {
+				plist->arr[j] = plist->arr[j + 1];
 			}
+			plist->curPosition--;
+			plist->numOfData--;
+			return TRUE;
 		}
-		plist->numOfData--;
-		plist->curPosition--;
+		
+			
 	}
-	else
-		printf("값을 못 찾았습니다.");
+	printf("그런값 없음");
+	return FALSE;
 }
 
 int LCount(List* plist) {
