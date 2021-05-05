@@ -56,6 +56,29 @@ int LNext(List* plist, LData* pdata) {
 }
 
 void LRemove(List* plist, LData pdata) {
+	//////////////* 이진탐색 버전
+	int first = 0;
+	int last = plist->numOfData-1;
+	int mid;
+
+	while (first <= last) {
+		mid = (first + last) / 2;
+		if (plist->arr[mid] == pdata) {
+			printf("\n%d를 지웁니다\n", pdata);
+			for (int j = mid; j < plist->numOfData; j++)
+				plist->arr[j] = plist->arr[j + 1];
+			plist->curPosition--;
+			plist->numOfData--;
+			break;
+		}
+		else if (plist->arr[mid] > pdata)
+			last = mid - 1;
+		else
+			first = mid + 1;
+
+	}
+	*///////////////
+	
 	printf("\n%d를 지웁니다\n", pdata);
 	for (int i = 0; i < plist->numOfData; i++) {
 		if (plist->arr[i] == pdata) {
